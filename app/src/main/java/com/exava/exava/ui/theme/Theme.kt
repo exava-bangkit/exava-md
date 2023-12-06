@@ -1,4 +1,4 @@
-package com.exava.exava.ui.activity.ui.theme
+package com.exava.exava.ui.theme
 
 import android.app.Activity
 import android.os.Build

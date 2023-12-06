@@ -1,4 +1,4 @@
-package com.exava.exava.ui.activity.ui.theme
+package com.exava.exava.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
