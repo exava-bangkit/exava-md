@@ -1,24 +1,22 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.exava.exava.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.exava.exava.ui.composable.LoginComposable
 import com.exava.exava.ui.theme.ExavaTheme
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
-class SplashScreenActivity : ComponentActivity() {
+class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -28,37 +26,39 @@ class SplashScreenActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting()
+                    LoginComposable(
+                        onLoginClick = { uField, pField ->
+                            toLogin(uField, pField)
+                        },
+                        onRegisterClick = {
+                            toRegister()
+                        }
+                    )
                 }
             }
         }
-        runBlocking {
-            delay(3000L)
-            val intent = Intent(this@SplashScreenActivity, LoginActivity::class.java)
-            this@SplashScreenActivity.startActivity(intent)
-        }
+    }
+    fun toLogin(username: String, password: String) {
+
+    }
+
+    fun toRegister() {
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
     }
 }
 
-@Composable
-fun Greeting(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Exava",
-        )
-    }
-}
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun GreetingPreview() {
+fun GreetingPreview2() {
     ExavaTheme {
-        Greeting()
+        LoginComposable(
+            onLoginClick = { uField, pField ->
+
+            },
+            onRegisterClick = {}
+        )
     }
 }
