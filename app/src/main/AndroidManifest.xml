@@ -38,6 +38,9 @@
         <activity
             android:name=".ui.activity.DashboardActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.activity.TourismActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

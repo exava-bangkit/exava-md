@@ -28,14 +28,24 @@ import com.exava.exava.ui.component.TopNav
 import com.exava.exava.ui.component.TourismCard
 
 @Composable
-fun HomeComposable() {
+fun HomeComposable(
+    modifier: Modifier = Modifier,
+    onCardClick: (Tourism) -> Unit,
+) {
     
-    HomeComposableStateless()
+    HomeComposableStateless(
+        onCardClick = {
+            onCardClick(it)
+        }
+    )
     
 }
 
 @Composable
-private fun HomeComposableStateless() {
+private fun HomeComposableStateless(
+    modifier: Modifier = Modifier,
+    onCardClick: (Tourism) -> Unit,
+) {
     val mockList = listOf(
         Tourism(
             placeName = "Lorem Ipsum",
@@ -107,7 +117,7 @@ private fun HomeComposableStateless() {
         }
         items(mockList) {
             Box(modifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp)) {
-                TourismCard(imageUrl = "https://placehold.co/600x400", title = it.placeName, description = it.description)
+                TourismCard(imageUrl = "https://placehold.co/600x400", title = it.placeName, description = it.description, onCardClick = {onCardClick(it)})
             }
         }
     }
@@ -117,5 +127,5 @@ private fun HomeComposableStateless() {
 @Preview(showSystemUi = true)
 @Composable
 private fun HomeComposablePreview() {
-    HomeComposable()
+    HomeComposable(onCardClick = {})
 }

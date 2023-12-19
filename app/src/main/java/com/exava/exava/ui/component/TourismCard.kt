@@ -23,13 +23,15 @@ fun TourismCard(
     modifier: Modifier = Modifier,
     imageUrl: String,
     title: String,
-    description: String
+    description: String,
+    onCardClick: () -> Unit
 ) {
     TourismCardStateless(
         modifier = modifier,
         imageUrl = imageUrl,
         title = title,
-        description = description
+        description = description,
+        onCardClick = onCardClick
     )
 }
 
@@ -38,10 +40,11 @@ private fun TourismCardStateless(
     modifier: Modifier = Modifier,
     imageUrl: String,
     title: String,
-    description: String
+    description: String,
+    onCardClick: () -> Unit
 ) {
     Card(
-        onClick = { /*TODO*/ },
+        onClick = onCardClick,
         modifier = modifier
             .fillMaxWidth()
 //            .height(248.dp)
@@ -75,6 +78,7 @@ private fun TourismCardPreview(
     TourismCard(
         imageUrl = "https://placehold.co/600x400",
         title = "Lorem Ipsum",
-        description = "Lorem Ipsum"
+        description = "Lorem Ipsum",
+        onCardClick = {}
     )
 }

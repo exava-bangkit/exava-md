@@ -2,6 +2,7 @@
 
 package com.exava.exava.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -67,7 +69,13 @@ fun DashboardComposableStateless(
                 .padding(paddingValues)
         ) {
             composable("home") {
-                HomeComposable()
+                val context = LocalContext.current
+                HomeComposable(
+                    onCardClick = {
+                        val intent = Intent(context, TourismActivity::class.java)
+                        context.startActivity(intent)
+                    }
+                )
             }
             composable("profile") {
 
