@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.exava.exava.data.database.dao.TourismDao
+import com.exava.exava.data.model.Tourism
 
-@Database(entities = [], version = 1)
+@Database(entities = [Tourism::class], version = 1)
 abstract class TourismDatabase: RoomDatabase() {
 
     abstract val tourismDao: TourismDao

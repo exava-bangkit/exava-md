@@ -2,10 +2,15 @@
 
 package com.exava.exava.ui.component
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -39,16 +44,24 @@ private fun TourismCardStateless(
         onClick = { /*TODO*/ },
         modifier = modifier
             .fillMaxWidth()
-            .height(248.dp)
+//            .height(248.dp)
     ) {
         AsyncImage(
             model = imageUrl,
             contentDescription = title,
             modifier = Modifier
                 .fillMaxWidth()
+                .height(232.dp)
         )
-        Text(text = title)
-        Text(text = description)
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+            Text(text = title, style = MaterialTheme.typography.labelLarge)
+            Spacer(modifier = Modifier.size(16.dp))
+            Text(text = description, style = MaterialTheme.typography.labelMedium)
+
+        }
 
 
     }
