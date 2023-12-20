@@ -2,6 +2,7 @@
 
 package com.exava.exava.ui.composable
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +24,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.exava.exava.R
 
 @Composable
 fun RegisterComposable(
@@ -81,7 +84,7 @@ fun RegisterComposableStateless(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Exava")
+            Image(painter = painterResource(id = R.drawable.logo_icon), contentDescription = "Logo Exava")
         }
         OutlinedTextField(name, onValueChange = onNameChange, label = { Text(text = "Name") }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(username, onValueChange = onUsernameChange, label = { Text(text = "Username") }, modifier = Modifier.fillMaxWidth())
