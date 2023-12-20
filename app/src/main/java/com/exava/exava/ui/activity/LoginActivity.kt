@@ -41,6 +41,7 @@ class LoginActivity : ComponentActivity() {
     fun toLogin(username: String, password: String) {
         val intent = Intent(this, DashboardActivity::class.java)
         startActivity(intent)
+        finish()
 
     }
 

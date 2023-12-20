@@ -36,6 +36,7 @@ class SplashScreenActivity : ComponentActivity() {
             delay(3000L)
             val intent = Intent(this@SplashScreenActivity, LoginActivity::class.java)
             this@SplashScreenActivity.startActivity(intent)
+            finish()
         }
     }
 }
