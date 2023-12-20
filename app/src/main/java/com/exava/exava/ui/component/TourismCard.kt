@@ -2,6 +2,7 @@
 
 package com.exava.exava.ui.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,9 +15,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.exava.exava.R
 
 @Composable
 fun TourismCard(
@@ -35,6 +41,7 @@ fun TourismCard(
     )
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun TourismCardStateless(
     modifier: Modifier = Modifier,
@@ -49,13 +56,15 @@ private fun TourismCardStateless(
             .fillMaxWidth()
 //            .height(248.dp)
     ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(232.dp)
-        )
+//        AsyncImage(
+//            model = imageUrl,
+//            contentDescription = title,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(232.dp)
+//        )
+        GlideImage(model = "https://source.unsplash.com/random", contentDescription = title, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxWidth().height(232.dp))
+//        Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = title, modifier = Modifier.fillMaxWidth().height(232.dp), contentScale = ContentScale.Crop)
         Column(
             modifier = Modifier
                 .padding(16.dp)

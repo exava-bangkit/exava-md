@@ -1,5 +1,6 @@
 package com.exava.exava.ui.composable
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -95,7 +96,8 @@ private fun HomeComposableStateless(
                 )
             }
             LazyRow(
-                contentPadding = PaddingValues(8.dp)
+                contentPadding = PaddingValues(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally)
 
             ) {
                 items(getAllCategory()) {
@@ -106,14 +108,14 @@ private fun HomeComposableStateless(
                             .width(64.dp)
                     ) {
                         Icon(imageVector = Icons.Outlined.LocationOn, contentDescription = it.nama, modifier = Modifier.size(40.dp))
-                        Text(it.nama, maxLines = 2, fontSize = 10.sp, textAlign = TextAlign.Center)
+                        Text(it.nama, maxLines = 2, fontSize = 10.sp, textAlign = TextAlign.Center, lineHeight = 14.sp)
                     }
                 }
             }
 
         }
         item {
-            Text("Rekomendasi Pariwisata", modifier = Modifier.padding(start = 16.dp, bottom = 16.dp))
+            Text("Rekomendasi Pariwisata", modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
         }
         items(mockList) {
             Box(modifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp)) {
