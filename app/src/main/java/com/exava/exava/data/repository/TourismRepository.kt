@@ -3,6 +3,7 @@ package com.exava.exava.data.repository
 import com.exava.exava.data.database.dao.TourismDao
 import com.exava.exava.data.model.Tourism
 import com.exava.exava.data.network.body.TourismLoginResponse
+import com.exava.exava.data.network.body.TourismRegisterResponse
 import com.exava.exava.data.network.service.TourismAPIService
 
 class TourismRepository(val token: String) {
@@ -18,7 +19,7 @@ class TourismAuthRepository() {
         return tourismAuthService.login(email, password)
     }
 
-    suspend fun register(username: String, email: String, password: String) {
+    suspend fun register(username: String, email: String, password: String): TourismRegisterResponse {
         return tourismAuthService.register(username, email, password)
     }
 }

@@ -21,6 +21,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.activity.addCallback
 import com.exava.exava.ui.component.BottomNav
 import com.exava.exava.ui.component.TopNav
 import com.exava.exava.ui.composable.HomeComposable
@@ -39,7 +40,12 @@ class DashboardActivity: ComponentActivity() {
                 }
             }
         }
+        onBackPressedDispatcher.addCallback {
+            finishAffinity()
+        }
     }
+
+
 }
 
 @Composable
