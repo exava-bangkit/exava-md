@@ -1,10 +1,13 @@
 package com.exava.exava.data.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 @Entity
+@Parcelize
 data class Tourism(
     @PrimaryKey(autoGenerate = true)
     @field:SerializedName("Place_Id")
@@ -29,7 +32,8 @@ data class Tourism(
     val timeMinutes: Int? = null,
     @field:SerializedName("Coordinate")
     val coordinate: String,
-)
+) : Parcelable
+
 data class TourismListResponse(
 
     @field:SerializedName("data")

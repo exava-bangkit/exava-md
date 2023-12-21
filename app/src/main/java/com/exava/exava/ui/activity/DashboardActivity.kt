@@ -28,6 +28,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import com.exava.exava.data.model.Tourism
 import com.exava.exava.data.viewmodel.TourismViewModel
 import com.exava.exava.data.viewmodel.factory.TourismViewModelFactory
+import com.exava.exava.ui.activity.DashboardActivity.Companion.TOURISM_ITEM
 import com.exava.exava.ui.component.BottomNav
 import com.exava.exava.ui.component.TopNav
 import com.exava.exava.ui.composable.HomeComposable
@@ -58,7 +59,9 @@ class DashboardActivity: ComponentActivity() {
         }
     }
 
-
+    companion object {
+        const val TOURISM_ITEM = "tourism_item"
+    }
 }
 
 @Composable
@@ -96,6 +99,7 @@ fun DashboardComposableStateless(
                 HomeComposable(
                     onCardClick = {
                         val intent = Intent(context, TourismActivity::class.java)
+                        intent.putExtra(TOURISM_ITEM, it)
                         context.startActivity(intent)
                     },
                     items = items
