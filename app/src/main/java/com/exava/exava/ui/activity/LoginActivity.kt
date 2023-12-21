@@ -19,11 +19,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.exava.exava.data.preferences.TourismAuthPreferences
+import com.exava.exava.data.preferences.dataStore
 import com.exava.exava.data.repository.TourismAuthRepository
 import com.exava.exava.data.viewmodel.TourismAuthViewModel
 import com.exava.exava.data.viewmodel.factory.TourismAuthViewModelFactory
 import com.exava.exava.ui.composable.LoginComposable
 import com.exava.exava.ui.theme.ExavaTheme
+import com.exava.exava.util.injection.TourismRepositoryInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +35,9 @@ import kotlinx.coroutines.withContext
 class LoginActivity : ComponentActivity() {
     private val viewModel by viewModels<TourismAuthViewModel> {
         TourismAuthViewModelFactory(TourismAuthRepository())
+    }
+    private val preferences by lazy {
+        TourismAuthPreferences.getInstance(dataStore)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +58,8 @@ class LoginActivity : ComponentActivity() {
                                     .onSuccess {
                                         withContext(Dispatchers.Main) {
                                             loadingLogin = false
-                                            Toast.makeText(this@LoginActivity, it.token, Toast.LENGTH_SHORT).show()
+                                            it.token?.let { it1 -> preferences.setAuthToken(it1) }
+//                                            Toast.makeText(this@LoginActivity, it.token, Toast.LENGTH_SHORT).show()
                                             val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
                                             startActivity(intent)
                                             finish()

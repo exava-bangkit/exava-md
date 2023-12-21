@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.exava.exava.data.network.body.TourismLoginResponse
 import com.exava.exava.data.network.body.TourismRegisterResponse
+import com.exava.exava.data.preferences.TourismAuthPreferences
 import com.exava.exava.data.repository.TourismAuthRepository
 import kotlinx.coroutines.launch
 

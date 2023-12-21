@@ -22,12 +22,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.activity.addCallback
+import androidx.activity.viewModels
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import com.exava.exava.data.model.Tourism
+import com.exava.exava.data.viewmodel.TourismViewModel
+import com.exava.exava.data.viewmodel.factory.TourismViewModelFactory
 import com.exava.exava.ui.component.BottomNav
 import com.exava.exava.ui.component.TopNav
 import com.exava.exava.ui.composable.HomeComposable
 import com.exava.exava.ui.theme.ExavaTheme
+import com.exava.exava.util.injection.TourismRepositoryInjection
 
 class DashboardActivity: ComponentActivity() {
+
+    private val viewModel by viewModels<TourismViewModel> {
+        TourismViewModelFactory(TourismRepositoryInjection.provideRepository(this))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -36,7 +47,9 @@ class DashboardActivity: ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DashboardComposable()
+                    val items by viewModel.listTourism.observeAsState(initial = listOf())
+                    DashboardComposable(items)
+                    viewModel.loadListTourism()
                 }
             }
         }
@@ -49,19 +62,23 @@ class DashboardActivity: ComponentActivity() {
 }
 
 @Composable
-fun DashboardComposable() {
+fun DashboardComposable(
+    items: List<Tourism>
+) {
     val navController = rememberNavController()
 
 
     DashboardComposableStateless(
-        navController = navController
+        navController = navController,
+        items = items
     )
 }
 
 @Composable
 fun DashboardComposableStateless(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    items: List<Tourism>
 ) {
 
     Scaffold(
@@ -80,7 +97,8 @@ fun DashboardComposableStateless(
                     onCardClick = {
                         val intent = Intent(context, TourismActivity::class.java)
                         context.startActivity(intent)
-                    }
+                    },
+                    items = items
                 )
             }
             composable("profile") {
@@ -98,7 +116,7 @@ fun DashboardComposablePreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            DashboardComposable()
+            DashboardComposable(items = listOf())
         }
     }
 

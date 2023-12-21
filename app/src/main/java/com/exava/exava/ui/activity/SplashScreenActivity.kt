@@ -18,30 +18,49 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.exava.exava.R
+import com.exava.exava.data.preferences.TourismAuthPreferences
+import com.exava.exava.data.preferences.dataStore
 import com.exava.exava.ui.theme.ExavaTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 class SplashScreenActivity : ComponentActivity() {
+    private val preferences by lazy {
+        TourismAuthPreferences.getInstance(dataStore)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-        setContent {
-            ExavaTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting()
-                }
+            .setKeepOnScreenCondition {
+                true
             }
-        }
+//        setContent {
+//            ExavaTheme {
+//                // A surface container using the 'background' color from the theme
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colorScheme.background
+//                ) {
+//                    Greeting()
+//                }
+//            }
+//        }
         runBlocking {
             delay(3000L)
-            val intent = Intent(this@SplashScreenActivity, LoginActivity::class.java)
-            this@SplashScreenActivity.startActivity(intent)
-            finish()
+            preferences.getAuthToken().first {
+                if (it != "") {
+                    val intent = Intent(this@SplashScreenActivity, DashboardActivity::class.java)
+                    this@SplashScreenActivity.startActivity(intent)
+                    finish()
+                } else {
+                    val intent = Intent(this@SplashScreenActivity, LoginActivity::class.java)
+                    this@SplashScreenActivity.startActivity(intent)
+                    finish()
+                }
+                true
+            }
         }
     }
 }

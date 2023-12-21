@@ -85,6 +85,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
@@ -97,6 +99,7 @@ dependencies {
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation("androidx.compose.material:material-icons-extended-android:1.5.4")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     testImplementation("junit:junit:4.13.2")
