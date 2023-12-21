@@ -85,6 +85,12 @@ fun LoginComposableStateless(
     var passwordVisible by rememberSaveable {
         mutableStateOf(false)
     }
+    var emailError by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var passwordError by rememberSaveable {
+        mutableStateOf(false)
+    }
     Column(
         modifier = modifier
             .padding(16.dp)
@@ -101,13 +107,21 @@ fun LoginComposableStateless(
         }
         OutlinedTextField(
             email,
-            onValueChange = onEmailChange,
+            onValueChange = {
+                onEmailChange(it)
+                emailError = false
+            },
             label = { Text(text = "Email") },
+            isError = emailError,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
             password,
-            onValueChange = onPasswordChange,
+            onValueChange = {
+                onPasswordChange(it)
+                passwordError = false
+            },
+            isError = passwordError,
             label = { Text(text = "Password") },
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
@@ -122,7 +136,13 @@ fun LoginComposableStateless(
         )
         Spacer(modifier = Modifier.size(16.dp))
         ElevatedButton(
-            onClick = { onLoginClick(email, password) },
+            onClick = {
+                if (email.isEmpty()) emailError = true
+                if (password.isEmpty()) passwordError = true
+                if (email.isNotEmpty() and password.isNotEmpty()) {
+                    onLoginClick(email, password)
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth(),
             enabled = !loading
