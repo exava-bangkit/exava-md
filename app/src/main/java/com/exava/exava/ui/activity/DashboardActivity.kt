@@ -99,7 +99,7 @@ fun DashboardComposableStateless(
                 HomeComposable(
                     onCardClick = {
                         val intent = Intent(context, TourismActivity::class.java)
-                        intent.putExtra(TOURISM_ITEM, it)
+                        intent.putExtra(TOURISM_ITEM, it.id)
                         context.startActivity(intent)
                     },
                     items = items
