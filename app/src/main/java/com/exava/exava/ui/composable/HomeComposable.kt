@@ -38,6 +38,7 @@ import com.exava.exava.util.injection.TourismRepositoryInjection
 fun HomeComposable(
     modifier: Modifier = Modifier,
     onCardClick: (Tourism) -> Unit,
+    onSearchClick: () -> Unit,
     items: List<Tourism>
 ) {
 
@@ -45,7 +46,10 @@ fun HomeComposable(
         onCardClick = {
             onCardClick(it)
         },
-        items = items
+        items = items,
+        onSearchClick = {
+           onSearchClick()
+        }
     )
     
 }
@@ -54,6 +58,7 @@ fun HomeComposable(
 private fun HomeComposableStateless(
     modifier: Modifier = Modifier,
     onCardClick: (Tourism) -> Unit,
+    onSearchClick: () -> Unit,
     items: List<Tourism>
 ) {
 
@@ -70,7 +75,10 @@ private fun HomeComposableStateless(
                 TopNav(
                     placeholder = { Text(text = "Cari destinasi") },
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    onSearchClick = {
+
+                    }
                 )
             }
             LazyRow(
@@ -107,5 +115,5 @@ private fun HomeComposableStateless(
 @Preview(showSystemUi = true)
 @Composable
 private fun HomeComposablePreview() {
-    HomeComposable(onCardClick = {}, items = listOf())
+    HomeComposable(onCardClick = {}, items = listOf(), onSearchClick = {})
 }

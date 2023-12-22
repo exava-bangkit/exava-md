@@ -49,7 +49,13 @@ class DashboardActivity: ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val items by viewModel.listTourism.observeAsState(initial = listOf())
-                    DashboardComposable(items)
+                    DashboardComposable(
+                        items = items,
+                        onSearchClick = {
+                            val intent = Intent(this, TourismSearchActivity::class.java)
+                            startActivity(intent)
+                        }
+                    )
                     viewModel.loadListTourism()
                 }
             }
@@ -66,14 +72,18 @@ class DashboardActivity: ComponentActivity() {
 
 @Composable
 fun DashboardComposable(
-    items: List<Tourism>
+    items: List<Tourism>,
+    onSearchClick: () -> Unit
 ) {
     val navController = rememberNavController()
 
 
     DashboardComposableStateless(
         navController = navController,
-        items = items
+        items = items,
+        onSearchClick = {
+            onSearchClick()
+        }
     )
 }
 
@@ -81,7 +91,8 @@ fun DashboardComposable(
 fun DashboardComposableStateless(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    items: List<Tourism>
+    items: List<Tourism>,
+    onSearchClick: () -> Unit,
 ) {
 
     Scaffold(
@@ -102,7 +113,10 @@ fun DashboardComposableStateless(
                         intent.putExtra(TOURISM_ITEM, it.id)
                         context.startActivity(intent)
                     },
-                    items = items
+                    items = items,
+                    onSearchClick = {
+                        onSearchClick()
+                    }
                 )
             }
             composable("profile") {
@@ -120,7 +134,7 @@ fun DashboardComposablePreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            DashboardComposable(items = listOf())
+            DashboardComposable(items = listOf(), onSearchClick = {})
         }
     }
 

@@ -2,6 +2,7 @@
 
 package com.exava.exava.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
@@ -9,20 +10,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TopNav(
     placeholder: @Composable () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSearchClick: () -> Unit
 ) {
-    val query by remember { mutableStateOf("") }
+    var query by remember { mutableStateOf("") }
     val active by remember { mutableStateOf(false) }
 
     TopNavStateless(
         query = query,
         onQueryChange = {
+            query = it
 
         },
         onSearch = {
@@ -33,7 +37,10 @@ fun TopNav(
 
         },
         placeholder = placeholder,
-        modifier = modifier
+        modifier = modifier,
+        onSearchClick = {
+            onSearchClick()
+        }
     )
 }
 
@@ -46,7 +53,8 @@ private fun TopNavStateless(
     active: Boolean,
     onActiveChange: (Boolean) -> Unit,
     placeholder: @Composable () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSearchClick: () -> Unit,
 ) {
     SearchBar(
         query = query,
@@ -55,7 +63,11 @@ private fun TopNavStateless(
         active = active,
         onActiveChange = onActiveChange,
         placeholder = placeholder,
-        modifier = modifier,
+        modifier = modifier
+            .clickable {
+                onSearchClick()
+
+            },
         ) {
     }
 }
@@ -66,6 +78,7 @@ private fun TopNavPreview() {
     TopNav(
         placeholder = {
             Text("Cari tempat destinasi")
-        }
+        },
+        onSearchClick = {}
     )
 }
