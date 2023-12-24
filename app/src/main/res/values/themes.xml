@@ -6,6 +6,7 @@
     </style>
 
     <style name="Theme.Exava" parent="Base.Theme.Exava" />
+
     <style name="Theme.Exava.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#158a4d</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo_white_center</item>
