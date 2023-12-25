@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.sp
 import com.exava.exava.data.model.Category
 import com.exava.exava.data.model.Tourism
 import com.exava.exava.data.model.getAllCategory
-import com.exava.exava.ui.component.TopNav
-import com.exava.exava.ui.component.TourismCard
+import com.exava.exava.ui.activity.DashboardActivity
+import com.exava.exava.ui.activity.TourismActivity
 
 @Composable
 fun HomeComposable(
@@ -45,12 +45,16 @@ fun HomeComposable(
         items = items,
         onSearchClick = {
            onSearchClick()
+        },
+        onCategoryClick = {
+            onCategoryClick(it)
         }
     ) {
         onCategoryClick(it)
     }
 
 }
+
 
 @Composable
 private fun HomeComposableStateless(
@@ -97,6 +101,7 @@ private fun HomeComposableStateless(
                         Icon(imageVector = Icons.Outlined.LocationOn, contentDescription = it.nama, modifier = Modifier.size(40.dp))
                         Text(it.nama, maxLines = 2, fontSize = 10.sp, textAlign = TextAlign.Center, lineHeight = 14.sp)
                     }
+
                 }
             }
 
@@ -118,3 +123,4 @@ private fun HomeComposableStateless(
 private fun HomeComposablePreview() {
     HomeComposable(onCardClick = {}, onSearchClick = {}, onCategoryClick = {}, items = listOf())
 }
+
