@@ -1,6 +1,8 @@
 package com.exava.exava.ui.composable
 
-import androidx.activity.viewModels
+import android.content.Intent
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,20 +27,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
+import com.exava.exava.data.model.Category
 import com.exava.exava.data.model.Tourism
 import com.exava.exava.data.model.getAllCategory
-import com.exava.exava.data.viewmodel.TourismViewModel
-import com.exava.exava.data.viewmodel.factory.TourismViewModelFactory
+import com.exava.exava.ui.activity.DashboardActivity
+import com.exava.exava.ui.activity.TourismActivity
 import com.exava.exava.ui.component.TopNav
 import com.exava.exava.ui.component.TourismCard
-import com.exava.exava.util.injection.TourismRepositoryInjection
 
 @Composable
 fun HomeComposable(
     modifier: Modifier = Modifier,
     onCardClick: (Tourism) -> Unit,
     onSearchClick: () -> Unit,
+    onCategoryClick: (Category) -> Unit,
     items: List<Tourism>
 ) {
 
@@ -49,16 +51,21 @@ fun HomeComposable(
         items = items,
         onSearchClick = {
            onSearchClick()
+        },
+        onCategoryClick = {
+            onCategoryClick(it)
         }
     )
     
 }
+
 
 @Composable
 private fun HomeComposableStateless(
     modifier: Modifier = Modifier,
     onCardClick: (Tourism) -> Unit,
     onSearchClick: () -> Unit,
+    onCategoryClick: (Category) -> Unit,
     items: List<Tourism>
 ) {
 
@@ -92,10 +99,14 @@ private fun HomeComposableStateless(
                         modifier = Modifier
                             .height(72.dp)
                             .width(64.dp)
+                            .clickable {
+                                onCategoryClick(it)
+                            }
                     ) {
                         Icon(imageVector = Icons.Outlined.LocationOn, contentDescription = it.nama, modifier = Modifier.size(40.dp))
                         Text(it.nama, maxLines = 2, fontSize = 10.sp, textAlign = TextAlign.Center, lineHeight = 14.sp)
                     }
+
                 }
             }
 
@@ -115,5 +126,6 @@ private fun HomeComposableStateless(
 @Preview(showSystemUi = true)
 @Composable
 private fun HomeComposablePreview() {
-    HomeComposable(onCardClick = {}, items = listOf(), onSearchClick = {})
+    HomeComposable(onCardClick = {}, items = listOf(), onSearchClick = {}, onCategoryClick = {})
 }
+
