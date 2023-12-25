@@ -28,8 +28,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import com.exava.exava.data.model.Tourism
 import com.exava.exava.data.viewmodel.TourismViewModel
 import com.exava.exava.data.viewmodel.factory.TourismViewModelFactory
-import com.exava.exava.ui.activity.DashboardActivity.Companion.CATEGORY_ID
-import com.exava.exava.ui.activity.DashboardActivity.Companion.CATEGORY_ITEM
+import com.exava.exava.ui.activity.DashboardActivity.Companion.CATEGORY_NAME
+import com.exava.exava.ui.activity.DashboardActivity.Companion.ID_CATEGORY
 import com.exava.exava.ui.activity.DashboardActivity.Companion.TOURISM_ITEM
 import com.exava.exava.ui.component.BottomNav
 import com.exava.exava.ui.composable.HomeComposable
@@ -68,8 +68,8 @@ class DashboardActivity: ComponentActivity() {
 
     companion object {
         const val TOURISM_ITEM = "tourism_item"
-        const val CATEGORY_ID = "category_id"
-        const val CATEGORY_ITEM = "category_item"
+        const val ID_CATEGORY = "id_category"
+        const val CATEGORY_NAME = "category_name"
     }
 }
 
@@ -116,17 +116,17 @@ fun DashboardComposableStateless(
                         intent.putExtra(TOURISM_ITEM, it.id)
                         context.startActivity(intent)
                     },
-                    items = items,
                     onSearchClick = {
                         onSearchClick()
                     },
                     onCategoryClick = {
                         Log.d(this.toString(), "araara kategory "+it.nama)
-                        val intent = Intent(context, ListDestinationActivity::class.java)
-                        intent.putExtra(CATEGORY_ID, it.id)
-                        intent.putExtra(CATEGORY_ITEM, it.nama)
+                        val intent = Intent(context, TourismListActivity::class.java)
+                        intent.putExtra(ID_CATEGORY, it.id)
+                        intent.putExtra(CATEGORY_NAME, it.nama)
                         context.startActivity(intent)
-                    }
+                    },
+                    items = items
                 )
             }
             composable("profile") {

@@ -15,9 +15,9 @@
         android:theme="@style/Theme.Exava"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.ListDestinationActivity"
+            android:name=".ui.activity.TourismListActivity"
             android:exported="false"
-            android:label="@string/title_activity_list_destination"
+            android:label="@string/title_activity_tourism_list"
             android:theme="@style/Theme.Exava" />
         <activity
             android:name=".ui.activity.LoginActivity"
