@@ -4,11 +4,11 @@ package com.exava.exava.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -28,9 +28,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import com.exava.exava.data.model.Tourism
 import com.exava.exava.data.viewmodel.TourismViewModel
 import com.exava.exava.data.viewmodel.factory.TourismViewModelFactory
+import com.exava.exava.ui.activity.DashboardActivity.Companion.CATEGORY_NAME
+import com.exava.exava.ui.activity.DashboardActivity.Companion.ID_CATEGORY
 import com.exava.exava.ui.activity.DashboardActivity.Companion.TOURISM_ITEM
 import com.exava.exava.ui.component.BottomNav
-import com.exava.exava.ui.component.TopNav
 import com.exava.exava.ui.composable.HomeComposable
 import com.exava.exava.ui.theme.ExavaTheme
 import com.exava.exava.util.injection.TourismRepositoryInjection
@@ -67,6 +68,8 @@ class DashboardActivity: ComponentActivity() {
 
     companion object {
         const val TOURISM_ITEM = "tourism_item"
+        const val ID_CATEGORY = "id_category"
+        const val CATEGORY_NAME = "category_name"
     }
 }
 
@@ -113,10 +116,17 @@ fun DashboardComposableStateless(
                         intent.putExtra(TOURISM_ITEM, it.id)
                         context.startActivity(intent)
                     },
-                    items = items,
                     onSearchClick = {
                         onSearchClick()
-                    }
+                    },
+                    onCategoryClick = {
+                        Log.d(this.toString(), "araara kategory "+it.nama)
+                        val intent = Intent(context, TourismListActivity::class.java)
+                        intent.putExtra(ID_CATEGORY, it.id)
+                        intent.putExtra(CATEGORY_NAME, it.nama)
+                        context.startActivity(intent)
+                    },
+                    items = items
                 )
             }
             composable("profile") {
