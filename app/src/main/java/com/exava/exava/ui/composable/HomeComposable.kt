@@ -29,6 +29,8 @@ import com.exava.exava.data.model.Tourism
 import com.exava.exava.data.model.getAllCategory
 import com.exava.exava.ui.activity.DashboardActivity
 import com.exava.exava.ui.activity.TourismActivity
+import com.exava.exava.ui.component.TopNav
+import com.exava.exava.ui.component.TourismCard
 
 @Composable
 fun HomeComposable(
@@ -49,9 +51,7 @@ fun HomeComposable(
         onCategoryClick = {
             onCategoryClick(it)
         }
-    ) {
-        onCategoryClick(it)
-    }
+    )
 
 }
 
