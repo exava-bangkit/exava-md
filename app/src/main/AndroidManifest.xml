@@ -10,6 +10,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Exava"
@@ -45,6 +46,10 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.TourismActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.TourismSearchActivity"
+            android:parentActivityName=".ui.activity.DashboardActivity"
             android:exported="false" />
     </application>
 

@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.exava.exava.data.model.Tourism
 import com.exava.exava.data.viewmodel.TourismViewModel
@@ -37,14 +38,15 @@ class TourismActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.surfaceVariant
                 ) {
-                    val tourism by viewModel.itemTourism.observeAsState(initial = null)
+//                    val tourism by viewModel.itemTourism.observeAsState(initial = null)
                     TourismComposable(
-                        tourism,
+                        tourismId = item,
+                        viewModel = viewModel,
                         onBackPressed = {
                             finish()
                         }
                     )
-                    viewModel.loadItemTourism(item)
+//                    viewModel.loadItemTourism(item)
                 }
             }
         }
@@ -60,7 +62,9 @@ fun TourismActivityPreview() {
             color = MaterialTheme.colorScheme.surfaceVariant
         ) {
             TourismComposable(
-                tourism = Tourism(1, "sdasd", "asdfasdf", 1,2,34343,5,23.3,343.3, coordinate = "asdf"),
+                0,
+                TourismViewModel(TourismRepositoryInjection.provideRepository(LocalContext.current)),
+//                tourism = Tourism(1, "sdasd", "asdfasdf", 1,2,34343,5,23.3,343.3, coordinate = "asdf"),
                 onBackPressed = {}
             )
 

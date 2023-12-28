@@ -79,6 +79,7 @@ private fun HomeComposableStateless(
                     modifier = Modifier
                         .fillMaxWidth(),
                     onSearchClick = {
+                        onSearchClick()
 
                     }
                 )

@@ -3,6 +3,7 @@ package com.exava.exava.data.network.endpoint
 import com.exava.exava.data.model.TourismItemResponse
 import com.exava.exava.data.model.TourismListResponse
 import com.exava.exava.data.network.body.TourismLoginResponse
+import com.exava.exava.data.network.body.TourismRatingResponse
 import com.exava.exava.data.network.body.TourismRegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -16,6 +17,13 @@ interface TourismEndpoint {
 
     @GET("/tourism/{id}")
     suspend fun getTourismById(@Path("id") id: Int): TourismItemResponse
+
+    @GET("/tourism/{id}/rating")
+    suspend fun getTourismRating(@Path("id") id: Int): TourismRatingResponse
+
+    @FormUrlEncoded
+    @POST("/tourism/search")
+    suspend fun searchTourism(@Field("query") query: String): TourismListResponse
 }
 
 interface TourismAuthEndpoint {

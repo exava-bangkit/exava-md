@@ -2,20 +2,28 @@
 
 package com.exava.exava.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Surface
@@ -27,6 +35,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.exava.exava.data.model.Tourism
@@ -50,20 +59,32 @@ class TourismSearchActivity(): ComponentActivity() {
                         .fillMaxSize()
                         .background(color = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
+                    val context = LocalContext.current
                     TourismSearchComposable(
                         viewModel = viewModel,
                         onSearch = {
+                            viewModel.loadSearch(it)
+//                                   finish()
 
                         },
                         onSearchCardClick = {
+                            val intent = Intent(context, TourismActivity::class.java)
+                            intent.putExtra(DashboardActivity.TOURISM_ITEM, it.id)
+                            context.startActivity(intent)
 
+                        },
+                        onBackClick = {
+                            finish()
                         }
                     )
                 }
             }
-
+        }
+        onBackPressedDispatcher.addCallback {
+            finish()
         }
     }
+
 }
 
 @Composable
@@ -71,9 +92,10 @@ fun TourismSearchComposable(
     modifier: Modifier = Modifier,
     viewModel: TourismViewModel,
     onSearchCardClick: (Tourism) -> Unit,
-    onSearch: (String) -> Unit
+    onSearch: (String) -> Unit,
+    onBackClick: () -> Unit
 ) {
-    val items by viewModel.listTourism.observeAsState(initial = listOf())
+    val items by viewModel.searchResult.observeAsState(initial = listOf())
     var searchString by rememberSaveable {
         mutableStateOf("")
     }
@@ -89,7 +111,8 @@ fun TourismSearchComposable(
         },
         onSearch = {
            onSearch(it)
-        }
+        },
+        onBackClick = onBackClick
     )
 
 
@@ -102,6 +125,7 @@ private fun TourismSearchComposableStateless(
     onSearchQueryChange: (String) -> Unit,
     onSearchCardClick: (Tourism) -> Unit,
     onSearch: (String) -> Unit,
+    onBackClick:() -> Unit
 ) {
     SearchBar(
         query = searchQuery,
@@ -110,7 +134,9 @@ private fun TourismSearchComposableStateless(
         active = true,
         placeholder = { Text(text = "Cari pariwisata")},
         leadingIcon = {
-            Icon(imageVector = Icons.Default.Search, contentDescription = "cari", tint = MaterialTheme.colorScheme.onSurface)
+            IconButton(onClick = onBackClick) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back to dashboard")
+            }
         },
         onActiveChange = {},
         content = {
@@ -145,6 +171,9 @@ private fun TourismSearchComposablePreview() {
 
                 },
                 onSearchCardClick = {
+
+                },
+                onBackClick = {
 
                 }
             )
