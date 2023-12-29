@@ -44,10 +44,10 @@ class RegisterActivity: ComponentActivity() {
                     }
                     RegisterComposable(
                         loading = loadingRegister,
-                        onRegister = { username, email, password ->
+                        onRegister = { username, email, password, name ->
                             CoroutineScope(Dispatchers.IO).launch {
                                 loadingRegister = true
-                                viewModel.register(username, email, password)
+                                viewModel.register(username, email, password, name)
                                     .onSuccess {
                                         withContext(Dispatchers.Main) {
                                             loadingRegister = false
@@ -100,7 +100,7 @@ fun RegisterActivityPreview() {
     ExavaTheme {
         RegisterComposable(
             loading = false,
-            onRegister = { username, email, password ->
+            onRegister = { username, email, password, name ->
 
             },
             onLogin = {

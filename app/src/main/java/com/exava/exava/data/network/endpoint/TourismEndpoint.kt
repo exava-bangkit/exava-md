@@ -37,5 +37,5 @@ interface TourismAuthEndpoint {
 
     @FormUrlEncoded
     @POST("/register")
-    suspend fun register(@Field("username") username: String, @Field("email")email: String, @Field("password")password: String): TourismRegisterResponse
+    suspend fun register(@Field("username") username: String, @Field("email")email: String, @Field("password")password: String, @Field("name") name: String): TourismRegisterResponse
 }

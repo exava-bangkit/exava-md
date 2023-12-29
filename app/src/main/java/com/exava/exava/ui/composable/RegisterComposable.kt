@@ -41,7 +41,7 @@ import com.exava.exava.R
 fun RegisterComposable(
     modifier: Modifier = Modifier,
     loading: Boolean,
-    onRegister: (username: String, email: String, password: String) -> Unit,
+    onRegister: (username: String, email: String, password: String, name: String) -> Unit,
     onLogin: () -> Unit
 ) {
     var username by remember {
@@ -94,7 +94,7 @@ fun RegisterComposableStateless(
     onUsernameChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
-    onRegister: (username: String, email: String, password: String) -> Unit,
+    onRegister: (username: String, email: String, password: String, name: String) -> Unit,
     onLogin: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -136,7 +136,7 @@ fun RegisterComposableStateless(
         Spacer(modifier = Modifier.size(16.dp))
         ElevatedButton(
             onClick = {
-                onRegister(username, email, password)
+                onRegister(username, email, password, name)
             },
             modifier = Modifier
                 .fillMaxWidth()

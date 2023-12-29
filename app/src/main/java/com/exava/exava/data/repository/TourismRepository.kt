@@ -41,7 +41,7 @@ class TourismAuthRepository() {
         return tourismAuthService.login(email, password)
     }
 
-    suspend fun register(username: String, email: String, password: String): TourismRegisterResponse {
-        return tourismAuthService.register(username, email, password)
+    suspend fun register(username: String, email: String, password: String, name: String): TourismRegisterResponse {
+        return tourismAuthService.register(username, email, password, name)
     }
 }

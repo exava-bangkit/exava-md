@@ -15,7 +15,7 @@ class TourismAuthViewModel(private val tourismAuthRepository: TourismAuthReposit
         return kotlin.runCatching { tourismAuthRepository.login(email, password) }
     }
 
-    suspend fun register(username: String, email: String, password: String): Result<TourismRegisterResponse> {
-        return kotlin.runCatching { tourismAuthRepository.register(username, email, password) }
+    suspend fun register(username: String, email: String, password: String, name: String): Result<TourismRegisterResponse> {
+        return kotlin.runCatching { tourismAuthRepository.register(username, email, password, name) }
     }
 }
