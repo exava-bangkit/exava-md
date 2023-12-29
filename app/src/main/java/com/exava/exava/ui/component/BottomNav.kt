@@ -1,6 +1,7 @@
 package com.exava.exava.ui.component
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -9,15 +10,20 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 
 @Composable
-fun BottomNav() {
+fun BottomNav(
+    navController: NavHostController
+) {
 
-    BottomNavStateless()
+    BottomNavStateless(navController)
 }
 @Composable
 fun BottomNavStateless(
+    navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     NavigationBar(
@@ -26,12 +32,22 @@ fun BottomNavStateless(
     ) {
         NavigationBarItem(
             selected = true,
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate("home") },
             icon = {
                 Icon(imageVector = Icons.Default.Home, contentDescription = "Home")
             },
             label = {
                 Text(text = "Home")
+            }
+        )
+        NavigationBarItem(
+            selected = false,
+            onClick = { navController.navigate("profile") },
+            icon = {
+                Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "Profile")
+            },
+            label = {
+                Text(text = "Profile")
             }
         )
     }
@@ -41,5 +57,5 @@ fun BottomNavStateless(
 @Preview
 @Composable
 fun BottomNavPreview() {
-    BottomNav()
+    BottomNav(NavHostController(LocalContext.current))
 }

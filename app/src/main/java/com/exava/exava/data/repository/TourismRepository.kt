@@ -5,6 +5,7 @@ import com.exava.exava.data.model.Tourism
 import com.exava.exava.data.model.TourismItemResponse
 import com.exava.exava.data.model.TourismListResponse
 import com.exava.exava.data.network.body.TourismLoginResponse
+import com.exava.exava.data.network.body.TourismProfileResponse
 import com.exava.exava.data.network.body.TourismRatingResponse
 import com.exava.exava.data.network.body.TourismRegisterResponse
 import com.exava.exava.data.network.service.TourismAPIService
@@ -26,6 +27,10 @@ class TourismRepository(val token: String) {
 
     suspend fun getTourismRating(id: Int): TourismRatingResponse {
         return tourismService.getTourismRating(id)
+    }
+
+    suspend fun profile(): TourismProfileResponse {
+        return tourismService.profile()
     }
 }
 

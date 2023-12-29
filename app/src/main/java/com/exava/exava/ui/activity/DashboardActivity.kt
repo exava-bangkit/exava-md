@@ -2,6 +2,7 @@
 
 package com.exava.exava.ui.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,9 +24,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.activity.addCallback
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import com.exava.exava.data.model.Tourism
+import com.exava.exava.data.network.body.TourismProfile
+import com.exava.exava.data.preferences.TourismAuthPreferences
+import com.exava.exava.data.preferences.dataStore
 import com.exava.exava.data.viewmodel.TourismViewModel
 import com.exava.exava.data.viewmodel.factory.TourismViewModelFactory
 import com.exava.exava.ui.activity.DashboardActivity.Companion.CATEGORY_NAME
@@ -33,8 +41,10 @@ import com.exava.exava.ui.activity.DashboardActivity.Companion.ID_CATEGORY
 import com.exava.exava.ui.activity.DashboardActivity.Companion.TOURISM_ITEM
 import com.exava.exava.ui.component.BottomNav
 import com.exava.exava.ui.composable.HomeComposable
+import com.exava.exava.ui.composable.ProfileComposable
 import com.exava.exava.ui.theme.ExavaTheme
 import com.exava.exava.util.injection.TourismRepositoryInjection
+import kotlinx.coroutines.runBlocking
 
 class DashboardActivity: ComponentActivity() {
 
@@ -51,13 +61,14 @@ class DashboardActivity: ComponentActivity() {
                 ) {
                     val items by viewModel.listTourism.observeAsState(initial = listOf())
                     DashboardComposable(
-                        items = items,
+                        viewModel = viewModel,
                         onSearchClick = {
                             val intent = Intent(this, TourismSearchActivity::class.java)
                             startActivity(intent)
                         }
                     )
                     viewModel.loadListTourism()
+                    viewModel.loadProfile()
                 }
             }
         }
@@ -75,15 +86,17 @@ class DashboardActivity: ComponentActivity() {
 
 @Composable
 fun DashboardComposable(
-    items: List<Tourism>,
+    viewModel: TourismViewModel,
     onSearchClick: () -> Unit
 ) {
     val navController = rememberNavController()
-
+    val items by viewModel.listTourism.observeAsState(initial = listOf())
+    val profile by viewModel.profile.observeAsState()
 
     DashboardComposableStateless(
         navController = navController,
         items = items,
+        profile = profile,
         onSearchClick = {
             onSearchClick()
         }
@@ -95,12 +108,13 @@ fun DashboardComposableStateless(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     items: List<Tourism>,
+    profile: TourismProfile?,
     onSearchClick: () -> Unit,
 ) {
 
     Scaffold(
         modifier = modifier,
-        bottomBar = { BottomNav() }
+        bottomBar = { BottomNav(navController) }
     ) {paddingValues ->
         NavHost(
             navController = navController,
@@ -131,6 +145,26 @@ fun DashboardComposableStateless(
             }
             composable("profile") {
 
+                val context = LocalContext.current
+                if (profile != null) {
+                    ProfileComposable(
+                        profile = profile,
+                        onLogoutClick = {
+                            val pref = TourismAuthPreferences.getInstance(context.dataStore)
+                            runBlocking {
+                                pref.setAuthToken("")
+                                val intent = Intent(context, LoginActivity::class.java)
+                                (context as Activity).finish()
+                                context.startActivity(intent)
+                            }
+                        }
+                    )
+                } else {
+                    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                        CircularProgressIndicator()
+                    }
+                }
+
             }
         }
     }
@@ -144,7 +178,8 @@ fun DashboardComposablePreview() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            DashboardComposable(items = listOf(), onSearchClick = {})
+            DashboardComposable(viewModel = TourismViewModel(TourismRepositoryInjection.provideRepository(
+                LocalContext.current)), onSearchClick = {})
         }
     }
 

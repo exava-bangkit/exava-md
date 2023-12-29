@@ -117,6 +117,7 @@ fun TourismSearchComposable(
 
 
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TourismSearchComposableStateless(
     modifier: Modifier = Modifier,

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.exava.exava.data.model.Tourism
+import com.exava.exava.data.network.body.TourismProfile
 import com.exava.exava.data.network.body.TourismRating
 import com.exava.exava.data.repository.TourismRepository
 import kotlinx.coroutines.launch
@@ -19,6 +20,8 @@ class TourismViewModel(private val repository: TourismRepository): ViewModel() {
     val searchResult: LiveData<List<Tourism>> = _searchResult
     private var _ratingTourism: MutableLiveData<TourismRating> = MutableLiveData<TourismRating>()
     val ratingTourism: LiveData<TourismRating> = _ratingTourism
+    private var _profile: MutableLiveData<TourismProfile> = MutableLiveData<TourismProfile>()
+    val profile: LiveData<TourismProfile> = _profile
 
     fun loadListTourism() {
         viewModelScope.launch {
@@ -52,6 +55,18 @@ class TourismViewModel(private val repository: TourismRepository): ViewModel() {
                 _ratingTourism.value = value.data
             }.onFailure {
                 Log.e("ERROR_SEARCH", "error rating")
+            }
+        }
+    }
+
+    fun loadProfile() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val value = repository.profile()
+                _profile.value = value.tourismProfile
+            }.onFailure {
+                Log.e("ERROR_PROFILE", "error profile")
+
             }
         }
     }
